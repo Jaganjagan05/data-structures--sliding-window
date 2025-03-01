@@ -1,0 +1,52 @@
+Given an array arr of 0s and 1s. Find and return the length of the longest subarray with equal number of 0s and 1s.
+
+Examples:
+
+Input: arr[] = [1, 0, 1, 1, 1, 0, 0]
+Output: 6
+Explanation: arr[1...6] is the longest subarray with three 0s and three 1s.
+Input: arr[] = [0, 0, 1, 1, 0]
+Output: 4
+Explnation: arr[0...3] or arr[1...4] is the longest subarray with two 0s and two 1s.
+Input: arr[] = [0]
+Output: 0
+Explnation: There is no subarray with an equal number of 0s and 1s.
+Constraints:
+1 <= arr.size() <= 105
+0 <= arr[i] <= 1
+
+class Solution {
+    public int maxLen(int[] arr) {
+        int n = arr.length;
+
+        // Convert 0s to -1s
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 0) arr[i] = -1;
+        }
+
+        // HashMap to store first occurrence of prefixSum
+        Map<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int max = 0; // Initialize to 0 instead of Integer.MIN_VALUE
+
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+
+            // If sum is 0, it means subarray from 0 to i has equal 0s and 1s
+            if (sum == 0) {
+                max = i + 1;
+            }
+
+            // If sum is seen before, update max length
+            if (map.containsKey(sum)) {
+                int r = map.get(sum);
+                max = Math.max(max, i - r); // Fix: No need for +1
+            } else {
+                // Store the first occurrence of sum
+                map.put(sum, i);
+            }
+        }
+
+        return max;
+    }
+}
