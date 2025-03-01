@@ -1,0 +1,35 @@
+Given a string s, find the length of the longest substring without repeating characters.
+
+Examples:
+
+Input: s = "geeksforgeeks"
+Output: 7
+Explanation: Longest substring is "eksforg".
+Input: s = "abdefgabef"
+Output: 6
+Explanation: Longest substring are "abdefg" , "bdefga" and "defgab".
+Input: s = "aaaaa"
+Output: 1
+Explanation: Longest substring is "a".
+Constraints:
+1 ≤ s.size() ≤ 105
+It is guaranteed that all characters of the String s will be lowercase letters from 'a' to '
+class Solution {
+    int longestUniqueSubstring(String s) {
+        int n = s.length();
+        Map<Character, Integer> map = new HashMap<>();
+        int len=0;
+        int l=0;
+        int r=0;
+        while(r<n){
+            if(map.containsKey(s.charAt(r)))
+            l=Math.max(l,map.get(s.charAt(r))+1);
+            map.put(s.charAt(r),r);
+            len=Math.max(len,r-l+1);
+            r++;
+        }
+        return len;
+
+        
+    }
+}
